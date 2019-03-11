@@ -1,4 +1,4 @@
 *.pyc
-data
-pretrained
+data/datasets/*
+pretrained/logs/*
 experiments/logs/*

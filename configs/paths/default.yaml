@@ -1,6 +1,7 @@
-logdir: pretrained/logs # directory for training logs and checkpoints
+logdir: experiments/logs # directory for training logs and checkpoints
 
 celeba_data_dir: data/datasets/celeba
 aflw_data_dir: data/datasets/aflw_release-2
+video_data_dir: data/datasets/video
 
 vgg16_path: pretrained/models/vgg16.caffemodel.h5 # path to pretrained VGG16 for perceptual loss

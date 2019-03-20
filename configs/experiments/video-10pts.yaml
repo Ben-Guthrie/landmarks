@@ -12,11 +12,11 @@ training:
     max_samples: 1000
   logdir: ${logdir}/${name}
   datadir: ${video_data_dir}
-  batch: 50
+  batch: 20
   allow_growth: True
   optim: Adam
   lr:
-    start_val: 0.001
+    start_val: 0.0001
     step: 100000
     decay: 0.95
 

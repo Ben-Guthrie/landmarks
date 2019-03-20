@@ -23,10 +23,6 @@ def load_dataset(data_root, subset):
 
     assert image_files[0] =='000000.png'
 
-    # Make sure no images are repeated
-    assert len(image_files) == len(set(image_files))
-    assert len(future_image_files) == len(set(future_image_files))
-
     if subset == 'train':
         label = 0
     elif subset == 'val':

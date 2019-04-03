@@ -61,7 +61,7 @@ def main(args):
   log_dir = train_config.logdir
 
   SUBSET = 'train'
-  NUM_STEPS = 30000000
+  NUM_STEPS = 100000
   # value at which the gradients are clipped
   GRAD_CLIP = train_config.gradclip
 

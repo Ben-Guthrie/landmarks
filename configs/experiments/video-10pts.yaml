@@ -1,13 +1,15 @@
 name: video-10pts
 training:
   ncheckpoint: 2000
-  n_test: 1000
+  n_test: 100
   gradclip: 1.0
   dset: video
   train_dset_params:
     subset: train
+    image_size: [64, 64]
   test_dset_params:
     subset: test
+    image_size: [64, 64]
     order_stream: True
     max_samples: 1000
   logdir: ${logdir}/${name}
@@ -17,7 +19,7 @@ training:
   optim: Adam
   lr:
     start_val: 0.0001
-    step: 100000
+    step: 1000
     decay: 0.95
 
 model:

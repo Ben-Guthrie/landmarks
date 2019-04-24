@@ -47,6 +47,8 @@ def evaluate(dataset_instance, net, net_config, net_file, training_opts,
                                              output_tensors=True,
                                              build_loss=eval_loss)
 
+    print(tensors)
+
     tensors_col = tf.get_collection('tensors')
     tensors_col = {k: v for k, v in tensors_col}
     tensors.update(tensors_col)

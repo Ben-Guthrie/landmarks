@@ -100,6 +100,12 @@ def main(args):
         config.training.datadir, subset='train',
         order_stream=True, max_samples=n_train_samples, tps=False,
         image_size=[im_size, im_size])
+  elif args.train_dataset == 'video':
+    train_dataset_class = import_dataset('video')
+    train_dset = train_dataset_class(
+        config.training.datadir, subset='train',
+        order_stream=True, max_samples=n_train_samples,
+        image_size=[im_size, im_size])
   else:
     raise ValueError('Dataset %s not supported.' % args.train_dataset)
 
@@ -114,6 +120,12 @@ def main(args):
     test_dset = test_dataset_class(
         config.training.datadir, subset=args.test_split,
         order_stream=True, tps=False,
+        image_size=[im_size, im_size])
+  elif args.test_dataset == 'video':
+    test_dataset_class = import_dataset('video')
+    test_dset = test_dataset_class(
+        config.training.datadir, subset=args.test_split,
+        order_stream=True,
         image_size=[im_size, im_size])
   else:
     raise ValueError('Dataset %s not supported.' % args.test_dataset)

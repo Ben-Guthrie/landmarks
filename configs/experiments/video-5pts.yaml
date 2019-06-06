@@ -1,4 +1,4 @@
-name: video-10pts
+name: video-5pts
 training:
   ncheckpoint: 2000
   n_test: 1000
@@ -25,7 +25,7 @@ training:
 model:
     gauss_std: 0.10
     gauss_mode: 'rot'
-    n_maps: 10
+    n_maps: 5
 
     n_filters: 32
     block_sizes: [1, 1, 1]

@@ -100,5 +100,52 @@ class VideoDataset(ImagePairDataset):
                 i_samp += 1
 
 
+    def _get_smooth_step(self, n, b):
+        x = tf.linspace(tf.cast(-1, tf.float32), 1, n)
+        y = 0.5 + 0.5 * tf.tanh(x / b)
+        return y
+
+
+    def _get_smooth_mask(self, h, w, margin, step):
+        b = 0.4
+        step_up = self._get_smooth_step(step, b)
+        step_down = self._get_smooth_step(step, -b)
+        def create_strip(size):
+            return tf.concat(
+                [tf.zeros(margin, dtype=tf.float32),
+                 step_up,
+                 tf.ones(size - 2 * margin - 2 * step, dtype=tf.float32),
+                 step_down,
+                 tf.zeros(margin, dtype=tf.float32)], axis=0)
+        mask_x = create_strip(w)
+        mask_y = create_strip(h)
+        mask2d = mask_y[:, None] * mask_x[None]
+        return mask2d
+
+
+    def _proc_im_pair(self, inputs):
+        with tf.name_scope('proc_im_pair'):
+            height, width = self._image_size[:2]
+
+            # read in the images:
+            image = self._read_image_tensor_or_string(inputs['image'])
+
+            assert self._image_size[0] == self._image_size[1]
+            final_size = self._image_size[0]
+
+            image = tf.image.resize_images(
+                image, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
+                align_corners=True)
+
+            mask = self._get_smooth_mask(height, width, 10, 20)[:, :, None]
+
+            future_image = image
+
+            inputs = {k: inputs[k] for k in self._get_sample_dtype().keys()}
+            inputs.update({'image': image, 'future_image': future_image,
+                           'mask': mask})
+        return inputs
+
+
     def num_samples(self):
         raise NotImplementedError()

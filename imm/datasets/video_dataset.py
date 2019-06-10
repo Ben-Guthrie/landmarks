@@ -129,6 +129,7 @@ class VideoDataset(ImagePairDataset):
 
             # read in the images:
             image = self._read_image_tensor_or_string(inputs['image'])
+            future_image = self._read_image_tensor_or_string(inputs['future_image'])
 
             assert self._image_size[0] == self._image_size[1]
             final_size = self._image_size[0]
@@ -136,10 +137,11 @@ class VideoDataset(ImagePairDataset):
             image = tf.image.resize_images(
                 image, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
                 align_corners=True)
+            future_image = tf.image.resize_images(
+                image, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
+                align_corners=True)
 
             mask = self._get_smooth_mask(height, width, 10, 20)[:, :, None]
-
-            future_image = image
 
             inputs = {k: inputs[k] for k in self._get_sample_dtype().keys()}
             inputs.update({'image': image, 'future_image': future_image,

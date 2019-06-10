@@ -39,6 +39,10 @@ def load_dataset(data_root, subset):
     images = image_files[images_set == label]
     future_images = future_image_files[images_set == label]
 
+    print images.shape
+    print future_images.shape
+    print images
+    print future_images
     return image_dir, images, future_images
 
 
@@ -123,6 +127,7 @@ class VideoDataset(ImagePairDataset):
         return mask2d
 
 
+"""
     def _proc_im_pair(self, inputs):
         with tf.name_scope('proc_im_pair'):
             height, width = self._image_size[:2]
@@ -134,12 +139,12 @@ class VideoDataset(ImagePairDataset):
             assert self._image_size[0] == self._image_size[1]
             final_size = self._image_size[0]
 
-            image = tf.image.resize_images(
-                image, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
+            images = tf.stack((image, future_image), axis=0)
+            images = tf.image.resize_images(
+                images, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
                 align_corners=True)
-            future_image = tf.image.resize_images(
-                image, [final_size, final_size], tf.image.ResizeMethod.BILINEAR,
-                align_corners=True)
+            image = images[0]
+            future_image = images[1]
 
             mask = self._get_smooth_mask(height, width, 10, 20)[:, :, None]
 
@@ -147,6 +152,7 @@ class VideoDataset(ImagePairDataset):
             inputs.update({'image': image, 'future_image': future_image,
                            'mask': mask})
         return inputs
+"""
 
 
     def num_samples(self):
